@@ -37,8 +37,6 @@ async function dataOnUI(data){
 
     let dateAndTime = new Date().toLocaleString("en-US", { timeZone: timezone });
     const array = await fetchPostalData(pincode);
-    console.log(array);
-    console.log(array[0]);
     const msg = array[0].Message;
     const colonIndex = msg.indexOf(":");
     let resultString;
@@ -113,10 +111,35 @@ async function dataOnUI(data){
         
    });
 
+
+   input.addEventListener('input',(e)=>{
+    const searched_name = e.target.value.toLowerCase();
+    console.log(input);
+    const postOfficesList = document.getElementById("card-container").children;
+    console.log(postOfficesList);
+
+    Array.from(postOfficesList).forEach(item=>{
+        const postOfficeName = item.children[0].textContent.split(": ")[1].toLowerCase();
+        
+        if(!postOfficeName.includes(searched_name))
+        {
+            item.style.display ="none";
+        }
+        else{
+            item.style.display ="block";
+        }
+    })
+})
+
+
    
    const postOfficeContainer = document.getElementById("post-offices");
    postOfficeContainer.appendChild(cardContainer);
 }
+
+
+
+
 
 async function fetchPostalData(pincode)
 {
